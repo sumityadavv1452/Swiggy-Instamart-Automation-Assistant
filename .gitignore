@@ -1,0 +1,28 @@
+# Environments & Credentials
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.log
+
+# Chrome user session
+chrome_dev_session/
+
+# Temporary / Scratch files
+scratch/
+.system_generated/
+
+# IDE & OS metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

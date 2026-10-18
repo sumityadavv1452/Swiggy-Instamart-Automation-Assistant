@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        "quick-order": {
+            "command": "python",
+            "args": [
+                "order_bot.py"
+            ]
+        }
+    }
+}
