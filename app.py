@@ -9,11 +9,13 @@ import asyncio
 import re
 from typing import List, Tuple
 import streamlit as st
-import nest_asyncio
 from dotenv import load_dotenv
 
-# Enable nested event loop support for Streamlit
-nest_asyncio.apply()
+try:
+    import nest_asyncio  # type: ignore
+    nest_asyncio.apply()
+except Exception:
+    pass
 
 # Load local environment variables
 load_dotenv()
@@ -62,11 +64,13 @@ def run_async(coroutine):
     """Safely runs an async coroutine within Streamlit's event loop environment."""
     try:
         loop = asyncio.get_event_loop()
+        if loop.is_running():
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+                return pool.submit(asyncio.run, coroutine).result()
+        return loop.run_until_complete(coroutine)
     except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-    
-    return loop.run_until_complete(coroutine)
+        return asyncio.run(coroutine)
 
 
 async def check_cdp_status(cdp_url: str):
