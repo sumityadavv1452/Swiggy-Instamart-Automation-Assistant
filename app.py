@@ -9,7 +9,11 @@ import asyncio
 import re
 from typing import List, Tuple
 import streamlit as st
+import nest_asyncio
 from dotenv import load_dotenv
+
+# Enable nested event loop support for Streamlit
+nest_asyncio.apply()
 
 # Load local environment variables
 load_dotenv()
@@ -62,10 +66,6 @@ def run_async(coroutine):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
     
-    if loop.is_running():
-        import nest_asyncio
-        nest_asyncio.apply()
-        return loop.run_until_complete(coroutine)
     return loop.run_until_complete(coroutine)
 
 
